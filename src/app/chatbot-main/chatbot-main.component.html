@@ -1,0 +1,23 @@
+<div class="message-page">
+  <div class="message-container">
+    <div class="messages-area">
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui eius natus harum mollitia maxime vitae officiis, 
+      </p>
+    </div>
+    <div class="message-field-area">
+        <mat-form-field appearance="fill" style="width: 100%">
+            <mat-label>Mesaj</mat-label>
+            <div style="display: flex; justify-content: space-between;">
+              <textarea matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5"></textarea>
+              <mat-icon>send</mat-icon>
+            </div>
+        </mat-form-field>
+    </div>
+  </div>
+</div>
+

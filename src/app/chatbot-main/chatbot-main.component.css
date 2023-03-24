@@ -1,0 +1,29 @@
+.message-page{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.message-container{
+  width:100%;
+  max-width: 1024px;
+  display: flex;
+  height: 94vh;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.messages-area{
+  display: flex;
+  height: 80vh;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  padding: 0 20px;
+  text-align: justify;
+}
+
+.message-field-area{
+  width: 100%;
+}
