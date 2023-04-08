@@ -1,9 +1,17 @@
 <div class="message-page">
   <div class="message-container">
     <div class="messages-area">
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui eius natus harum mollitia maxime vitae officiis, 
-      </p>
+      <div *ngFor="let message of messages" class="messages-flex" id="messages-flex-id">
+        {{message}}
+      </div>
+      <div>
+        <div *ngIf="messageRes$">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div>
+          {{ messageRes$ | async}}
+        </div>
+      </div>
     </div>
     <div class="message-field-area">
         <mat-form-field appearance="fill" style="width: 100%">
@@ -13,8 +21,11 @@
               cdkTextareaAutosize
               #autosize="cdkTextareaAutosize"
               cdkAutosizeMinRows="1"
-              cdkAutosizeMaxRows="5"></textarea>
-              <mat-icon>send</mat-icon>
+              cdkAutosizeMaxRows="5"
+              [formControl]="messageController"></textarea>
+              <button mat-icon-button aria-label="Send" (click)="onSendMessage()">
+                <mat-icon>send</mat-icon>
+              </button>
             </div>
         </mat-form-field>
     </div>

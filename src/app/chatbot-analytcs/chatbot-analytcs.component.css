@@ -1,6 +1,9 @@
 .chart-options-area{
     float: left;
-    width: 100%;
+    height: 100px;
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .chart-area{

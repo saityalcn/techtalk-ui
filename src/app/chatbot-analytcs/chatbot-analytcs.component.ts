@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import Chart, { ChartItem } from 'chart.js/auto';
+import Chart, { ChartItem, ChartTypeRegistry } from 'chart.js/auto';
 
 @Component({
   selector: 'app-chatbot-analytcs',
@@ -8,17 +8,32 @@ import Chart, { ChartItem } from 'chart.js/auto';
   styleUrls: ['./chatbot-analytcs.component.css']
 })
 export class ChatbotAnalytcsComponent {
-
+  chartTypeOptions: string[] = ['bar', 'pie', 'line'];
+  dataSourceOptions: string[] = ['DataSource1', 'DataSource2', 'DataSource3', 'DataSource4', 'DataSource5'];
+  selectedChart!: string;
+  chart!: any;
   constructor(private titleService: Title){}
 
   ngOnInit(){
     this.titleService.setTitle("Analytics | TechTalk");
+  }
 
+  onChartSelectChange(selectedChart: any){
+    console.log(selectedChart);
+    this.buildChart(selectedChart.value)
+  }
+
+  buildChart(chartType: any){
     const ctx = document.getElementById('myChart') as ChartItem;
 
+    if(this.chart){
+      console.log("destryo");
+      this.chart.destroy();
+    }
+
     if(ctx != null){
-      new Chart(ctx, {
-        type: 'bar',
+      this.chart = new Chart(ctx, {
+        type: chartType,
         data: {
           labels: ['Sait', 'Ahmet', 'Akib', 'Muhammet', 'Kayra', 'Ali'],
           datasets: [
@@ -43,6 +58,6 @@ export class ChatbotAnalytcsComponent {
         }
       });
     }
+    console.log(this.chart);
   }
-
 }
