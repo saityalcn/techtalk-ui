@@ -13,6 +13,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     this.titleService.setTitle("TechTalk");
+    localStorage.setItem("model", "prepared");
   }
 
 

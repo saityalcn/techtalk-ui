@@ -13,3 +13,11 @@
     width: 100%;
     max-width: 1024px;
 }
+
+.chart{
+    width: 100%; 
+    max-height: 60vh;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+}

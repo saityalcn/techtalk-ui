@@ -22,11 +22,20 @@ export class ChatbotService {
         const body: Map<string, string> = new Map<string, string>();
 
         body.set("message", message);
+        const jsonBody = JSON.stringify(Object.fromEntries(body));
 
-        console.log(message);
-        console.log(url);
-
-        return this.http.post<any>(url, body, {headers: httpHeader});
+        return this.http.post<any>(url, jsonBody, {headers: httpHeader});
     }
 
-  }
+    postAnalytics(selectedDataSource: string){
+        const httpHeader = {"Content-Type": "application/json"};
+        const url = this.serviceUrl + "/analytics";
+        const body: Map<string, string> = new Map<string, string>();
+
+        body.set("dataSource", selectedDataSource);
+        const jsonBody = JSON.stringify(Object.fromEntries(body));
+
+        return this.http.post<any>(url, jsonBody, {headers: httpHeader});
+    }
+
+}

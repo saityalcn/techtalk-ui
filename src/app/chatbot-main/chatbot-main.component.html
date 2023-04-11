@@ -1,21 +1,25 @@
 <div class="message-page">
   <div class="message-container">
     <div class="messages-area">
-      <div *ngFor="let message of messages" class="messages-flex" id="messages-flex-id">
-        {{message}}
-      </div>
+      <!--
       <div>
         <div *ngIf="messageRes$">
           <mat-spinner></mat-spinner>
         </div>
-        <div>
-          {{ messageRes$ | async}}
+      </div>
+      -->
+      <div *ngFor="let message of messages" class="messages-flex" id="messages-flex-id" [ngStyle]="{'background-color': (message.sent ? 'transparent' : '#E3E5F1')}">
+        <div *ngIf="!isArrayElementObservable(message.message)">
+          {{message.message}}
+        </div>
+        <div *ngIf="isArrayElementObservable(message.message)">
+          {{ message.message | async}}
         </div>
       </div>
     </div>
     <div class="message-field-area">
         <mat-form-field appearance="fill" style="width: 100%">
-            <mat-label>Mesaj</mat-label>
+            <mat-label>Message</mat-label>
             <div style="display: flex; justify-content: space-between;">
               <textarea matInput
               cdkTextareaAutosize

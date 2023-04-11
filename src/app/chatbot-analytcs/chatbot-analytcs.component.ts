@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import Chart, { ChartItem, ChartTypeRegistry } from 'chart.js/auto';
+import { ChatbotService } from '../services/chatbot.service';
+import { Observable } from 'rxjs';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chatbot-analytcs',
@@ -9,25 +12,75 @@ import Chart, { ChartItem, ChartTypeRegistry } from 'chart.js/auto';
 })
 export class ChatbotAnalytcsComponent {
   chartTypeOptions: string[] = ['bar', 'pie', 'line'];
-  dataSourceOptions: string[] = ['DataSource1', 'DataSource2', 'DataSource3', 'DataSource4', 'DataSource5'];
+  dataSourceOptions: any[] = [];
   selectedChart!: string;
+  analytics$!: Observable<any>;
+  selectedDataSource!: string;
   chart!: any;
-  constructor(private titleService: Title){}
+
+  dataSourceControl:FormControl = new FormControl('', {validators: [Validators.required]});
+  chartSelectControl:FormControl = new FormControl('',{validators: [Validators.required]});
+
+  constructor(private titleService: Title, private chatbotService: ChatbotService){}
 
   ngOnInit(){
     this.titleService.setTitle("Analytics | TechTalk");
+
+    let obj = {key: 'mostCommonResponse', name: 'Most Common Response'};
+    this.dataSourceOptions.push(obj);
+
+    obj = {key: 'leastCommonResponse', name: 'Least Common Response'};
+    this.dataSourceOptions.push(obj);
+
+    obj = {key: 'mostCommonPatterns', name: 'Most Common Patterns'};
+    this.dataSourceOptions.push(obj);
+
+    obj = {key: 'leastCommonPatterns', name: 'Least Common Patterns'};
+    this.dataSourceOptions.push(obj);
   }
 
-  onChartSelectChange(selectedChart: any){
-    console.log(selectedChart);
-    this.buildChart(selectedChart.value)
+  onDataSourceSelectChange(){
+    this.onConfigChange();
   }
 
-  buildChart(chartType: any){
+  onChartSelectChange(){
+    this.onConfigChange();
+  }
+
+  onConfigChange(){
+    const labels: any[] = [];
+    const data: any[] = [];
+
+    if(this.dataSourceControl.valid && this.chartSelectControl.valid){
+      this.chatbotService.postAnalytics(this.dataSourceControl.value).subscribe((response: any) => {
+        console.log(response);
+        if(response.res.length > 3){
+          response.res.forEach((element:any)=> {
+            labels.push(element[0]);
+            data.push(element[1]);
+            console.log(element);
+          });
+        }
+
+        else{
+          response.res[0].forEach((element:any) => {
+            labels.push(element);
+          });
+
+          response.res[1].forEach((element: any) => {
+            data.push(element)
+          })
+        }
+
+        this.buildChart(this.chartSelectControl.value, labels,data);
+      });
+    }
+  }
+
+  buildChart(chartType: any, labels: any[], data: any[]){
     const ctx = document.getElementById('myChart') as ChartItem;
 
     if(this.chart){
-      console.log("destryo");
       this.chart.destroy();
     }
 
@@ -35,18 +88,13 @@ export class ChatbotAnalytcsComponent {
       this.chart = new Chart(ctx, {
         type: chartType,
         data: {
-          labels: ['Sait', 'Ahmet', 'Akib', 'Muhammet', 'Kayra', 'Ali'],
+          labels: labels,
           datasets: [
             {
-            label: 'number of samples',
-            data: [12, 19, 3, 5, 2, 3],
+            label: '',
+            data: data,
             borderWidth: 1
             },
-            {
-              label: 'number of samples',
-              data: [12, 19, 3, 5, 2, 3],
-              borderWidth: 1
-            }
           ]
         },
         options: {
@@ -58,6 +106,6 @@ export class ChatbotAnalytcsComponent {
         }
       });
     }
-    console.log(this.chart);
   }
 }
+

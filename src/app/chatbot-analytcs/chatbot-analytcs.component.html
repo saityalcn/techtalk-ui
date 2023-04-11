@@ -4,8 +4,8 @@
             <mat-label>
                 Select Data Source
             </mat-label>
-            <mat-select>
-                <mat-option [value]="datasource" *ngFor="let datasource of dataSourceOptions">{{datasource}}</mat-option>
+            <mat-select [formControl]="dataSourceControl" (selectionChange)="onDataSourceSelectChange()">
+                <mat-option [value]="datasource.key" *ngFor="let datasource of dataSourceOptions">{{datasource.name}}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -13,13 +13,13 @@
             <mat-label>
                 Select Chart Type
             </mat-label>
-            <mat-select (selectionChange)="onChartSelectChange($event)">
+            <mat-select [formControl]="chartSelectControl" (selectionChange)="onChartSelectChange()">
                 <mat-option [value]="type" *ngFor="let type of chartTypeOptions">{{type}}</mat-option>
             </mat-select>
         </mat-form-field>
     </div>
     <div class="chart-area">
-        <div style="width: 100%; max-height: 60vh;">
+        <div class="chart">
             <canvas id="myChart"></canvas>
         </div>
     </div>

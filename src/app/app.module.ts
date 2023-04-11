@@ -44,7 +44,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
-    MatSelectModule
+    MatSelectModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
